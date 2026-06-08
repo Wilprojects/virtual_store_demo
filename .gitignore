@@ -1,0 +1,101 @@
+# Miscellaneous
+*.class
+*.pyc
+*.swp
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
+
+# Android Studio / IntelliJ
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+/build/
+/coverage/
+
+# Symbolication related
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
+# VS Code
+.vscode/
+
+# Android
+android/.gradle/
+android/app/build/
+android/build/
+android/local.properties
+android/key.properties
+android/**/GeneratedPluginRegistrant.java
+
+# Gradle
+.gradle/
+**/build/
+
+# iOS
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Flutter/Generated.xcconfig
+ios/Flutter/ephemeral/
+ios/Runner/GeneratedPluginRegistrant.*
+
+# macOS
+macos/Flutter/GeneratedPluginRegistrant.swift
+macos/Flutter/ephemeral/
+macos/Pods/
+
+# Firebase / Google services
+# OJO:
+# Si este es un proyecto académico y necesitas que el profesor lo ejecute,
+# podrías subir google-services.json.
+# Pero para un repositorio público, es mejor no subirlo.
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+macos/Runner/GoogleService-Info.plist
+
+# Environment files
+.env
+.env.*
+*.env
+
+# Keystores / Signing
+*.jks
+*.keystore
+*.p12
+*.pem
+*.key
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Coverage
+coverage/
+
+# Test reports
+test-results/
