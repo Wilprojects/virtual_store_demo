@@ -10,6 +10,7 @@ class PrimaryTextField extends StatelessWidget {
   final bool isPassword;
   final TextEditingController controller;
   final IconData? suffixIcon;
+  final Function(String)? onChanged;
 
   const PrimaryTextField({
     super.key,
@@ -18,7 +19,8 @@ class PrimaryTextField extends StatelessWidget {
     this.keyboardType,
     this.isPassword = false,
     required this.controller,
-    this.suffixIcon
+    this.suffixIcon,
+    this.onChanged
   });
 
   @override
@@ -30,6 +32,7 @@ class PrimaryTextField extends StatelessWidget {
       ),
       child: TextField(
         controller: controller,
+        onChanged: onChanged,
         decoration: InputDecoration(
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
