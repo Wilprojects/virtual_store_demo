@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:virtual_store_demo/common/widgets/screens/loading_screen.dart';
 import 'package:virtual_store_demo/common/widgets/text_fields/primary_text_field.dart';
 import 'package:virtual_store_demo/features/products/presentation/providers/products_providers.dart';
+import 'package:virtual_store_demo/features/products/presentation/screens/product_detail_screen.dart';
 import 'package:virtual_store_demo/features/products/presentation/widgets/category_item_tab.dart';
 import 'package:virtual_store_demo/features/products/presentation/widgets/product_item_card.dart';
 import 'package:virtual_store_demo/styles/text_styles.dart';
@@ -98,7 +99,12 @@ class ProductsSection extends ConsumerWidget {
                     return ProductItemCard(
                       product: product,
                       onTap: (){
-                        //Navegar al detalle del producto
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProductDetailScreen(product: product),
+                          )
+                        );
                       }
                     );
                   },
