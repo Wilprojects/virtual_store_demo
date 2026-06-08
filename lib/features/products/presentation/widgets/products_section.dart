@@ -8,13 +8,28 @@ import 'package:virtual_store_demo/features/products/presentation/widgets/catego
 import 'package:virtual_store_demo/features/products/presentation/widgets/product_item_card.dart';
 import 'package:virtual_store_demo/styles/text_styles.dart';
 
-class ProductsSection extends ConsumerWidget {
+class ProductsSection extends ConsumerStatefulWidget {
   const ProductsSection({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ProductsSection> createState() => _ProductsSectionState();
+}
 
-    final searchProductController = TextEditingController();
+class _ProductsSectionState extends ConsumerState<ProductsSection> {
+  final searchProductController = TextEditingController();
+
+  String searchText = '';
+  String? selectedCategoryId;
+
+  @override
+  void dispose() {
+    searchProductController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
     final categoriesAsyncValue = ref.watch(categoriesProvider);
     final productsAsyncValue = ref.watch(productsProvider);
 
@@ -27,6 +42,11 @@ class ProductsSection extends ConsumerWidget {
             hintText: 'Buscar productos',
             labelText: 'Buscar productos',
             controller: searchProductController,
+            onChanged: (value) {
+              setState(() {
+                searchText = value.trim().toLowerCase();
+              });
+            },
           ),
 
           const SizedBox(height: 16),
@@ -48,7 +68,19 @@ class ProductsSection extends ConsumerWidget {
                   itemCount: categoriesList.length,
                   itemBuilder: (context, index){
                     final category = categoriesList[index];
-                    return CategoryItemTab(category: category);
+
+                    return GestureDetector(
+                      onTap: (){
+                        setState(() {
+                          if(selectedCategoryId == category.id){
+                            selectedCategoryId = null;
+                          } else {
+                            selectedCategoryId = category.id;
+                          }
+                        });
+                      },
+                      child: CategoryItemTab(category: category),
+                    );
                   },
                 ),
               );
@@ -79,14 +111,25 @@ class ProductsSection extends ConsumerWidget {
           Expanded(
             child: productsAsyncValue.when(
               data: (productsList){
-                if(productsList.isEmpty){
+                final filteredProducts = productsList.where((product){
+                  final matchesSearch = searchText.isEmpty ||
+                      product.name.toLowerCase().contains(searchText) ||
+                      product.description.toLowerCase().contains(searchText);
+
+                  final matchesCategory = selectedCategoryId == null ||
+                      product.categoryId == selectedCategoryId;
+
+                  return matchesSearch && matchesCategory;
+                }).toList();
+
+                if(filteredProducts.isEmpty){
                   return const Center(
-                    child: Text('No hay productos disponibles'),
+                    child: Text('No se encontraron productos'),
                   );
                 }
 
                 return GridView.builder(
-                  itemCount: productsList.length,
+                  itemCount: filteredProducts.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     mainAxisSpacing: 24,
@@ -94,7 +137,7 @@ class ProductsSection extends ConsumerWidget {
                     childAspectRatio: 0.75
                   ),
                   itemBuilder: (context, index){
-                    final product = productsList[index];
+                    final product = filteredProducts[index];
 
                     return ProductItemCard(
                       product: product,
