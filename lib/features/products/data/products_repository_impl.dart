@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:virtual_store_demo/features/products/domain/models/category_model.dart';
+import 'package:virtual_store_demo/features/products/domain/models/product_model.dart';
 import 'package:virtual_store_demo/features/products/domain/repositories/products_repository.dart';
 
 class ProductsRepositoryImpl extends ProductsRepository {
@@ -17,6 +18,22 @@ class ProductsRepositoryImpl extends ProductsRepository {
         id: doc.id,
         name: doc['name'],
         imageUrl: doc['image_url'],
+      );
+    }).toList();
+  }
+
+  @override
+  Future<List<ProductModel>> getProducts() async {
+    final snapshot = await firestore.collection('products').get();
+
+    return snapshot.docs.map((doc){
+      return ProductModel(
+        id: doc.id,
+        categoryId: doc["category_id"],
+        name: doc['name'],
+        description: doc['description'],
+        imageUrl: doc['image_url'],
+        price: doc['price'],
       );
     }).toList();
   }
