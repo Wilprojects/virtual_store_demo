@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:virtual_store_demo/features/cart/presentation/providers/cart_providers.dart';
 import 'package:virtual_store_demo/features/products/domain/models/product_model.dart';
 import 'package:virtual_store_demo/styles/app_colors.dart';
 import 'package:virtual_store_demo/styles/text_styles.dart';
 
-class ProductDetailScreen extends StatelessWidget{
+class ProductDetailScreen extends ConsumerWidget{
   final ProductModel product;
 
   const ProductDetailScreen({super.key, required this.product});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
@@ -98,6 +100,9 @@ class ProductDetailScreen extends StatelessWidget{
                               ),
                             ),
                             onPressed: () {
+
+                              addProductToCart(ref, product);
+
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text(
